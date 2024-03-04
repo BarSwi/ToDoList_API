@@ -1,11 +1,17 @@
 package API.ToDoList_API.Utilities;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import org.jetbrains.annotations.Nullable;
 
 
+/**
+ * Apparently since the spring framework offers it`s own queryExecutor this whole class won't be used, but I will leave it there only to
+ * notice the difference in framework usage later on.
+ * Most likely Hibernate would handle connetion to database as well so every connection method would not be used.
+ */
 
 public class QueryExecutor {
 

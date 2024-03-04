@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 
 /**
- * Apparently since the spring framework offers it`s own queryExecutor this whole class won't be used, but I will leave it there only to
+ * Apparently since the spring framework offers it`s own queryExecutor (or simply use entityManager) this whole class won't be used, but I will leave it there only to
  * notice the difference in framework usage later on.
  * Most likely Hibernate would handle connetion to database as well so every connection method would not be used.
  */

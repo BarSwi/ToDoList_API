@@ -36,4 +36,18 @@ public class UserController {
                     .body("Authentication failed for user: " + username + HttpStatus.UNAUTHORIZED.value());
         }
     }
+
+    @PostMapping("/registration")
+    public ResponseEntity<?> registerUser(@RequestBody Map<String, String> request){
+        String username = request.get("username");
+        String password = request.get("password");
+        try{
+            User user = userService.registerUser(username, password);
+            return ResponseEntity.ok(user.getUsername());
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+
+    }
 }

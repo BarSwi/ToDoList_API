@@ -15,8 +15,7 @@ public class User {
     public User() {
         // Default constructor
     }
-    public User(long ID, String username, String password) {
-        this.ID = ID;
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
     }

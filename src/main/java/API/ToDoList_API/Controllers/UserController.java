@@ -3,6 +3,7 @@ package API.ToDoList_API.Controllers;
 import API.ToDoList_API.Models.User;
 import API.ToDoList_API.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/authentication")
-    public ResponseEntity<?> test(@RequestBody Map<String, String> request){
+    public ResponseEntity<?> authUser(@RequestBody Map<String, String> request){
+
+        //TODO: Implement JWT Token logic
         String username = request.get("username");
         String password = request.get("password");
         User authenticatedUser = userService.Authenticate(username, password).orElse(null);
@@ -33,7 +36,7 @@ public class UserController {
         } else {
             // Authentication failed, provide an appropriate response
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Authentication failed for user: " + username + HttpStatus.UNAUTHORIZED.value());
+                    .body("Authentication failed for user: " + username);
         }
     }
 
@@ -46,6 +49,8 @@ public class UserController {
             return ResponseEntity.ok(user.getUsername());
         }catch(IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
+        }catch(DuplicateKeyException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
 
 

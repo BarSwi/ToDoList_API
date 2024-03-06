@@ -4,6 +4,7 @@ package API.ToDoList_API.Services;
 import API.ToDoList_API.Models.User;
 import API.ToDoList_API.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class UserService {
                 .filter(user -> passwordEncoder().matches(password, user.getPassword()));
     }
 
-    public User registerUser(String username, String password) throws IllegalArgumentException{
+    public User registerUser(String username, String password) throws IllegalArgumentException, DuplicateKeyException{
         Validator validator = new Validator();
 
         if(!validator.registerValidate(username, password))
@@ -35,7 +36,7 @@ public class UserService {
                     "Maximum length of values: 255 characters");
 
         if(!validator.checkIfUsernameExists(username))
-            throw new IllegalArgumentException("Username already exists in the database");
+            throw new DuplicateKeyException("Username is already registered");
 
 
         User user = new User(username, passwordEncoder().encode(password));

@@ -24,6 +24,7 @@ public class UserService {
     }
 
     public Optional<User> Authenticate(String username, String password){
+
         return userRepository.findByUsername(username)
                 .filter(user -> passwordEncoder().matches(password, user.getPassword()));
     }

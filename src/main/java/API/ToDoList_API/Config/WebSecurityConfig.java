@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -22,7 +23,11 @@ public class WebSecurityConfig{
                 )
                 .csrf(AbstractHttpConfigurer::disable) //TODO: Configure CSRF
                 .formLogin(withDefaults())
-                .httpBasic(withDefaults());
+                .httpBasic(withDefaults())
+                //Set up Spring Security session into stateless
+                .sessionManagement(sessionConfigurer -> sessionConfigurer
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                );
         return http.build();
     }
 }

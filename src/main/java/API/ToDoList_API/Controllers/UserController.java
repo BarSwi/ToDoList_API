@@ -3,15 +3,17 @@ package API.ToDoList_API.Controllers;
 import API.ToDoList_API.Models.User;
 import API.ToDoList_API.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.dao.DuplicateKeyException;
+
 
 import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api")
@@ -42,8 +44,9 @@ public class UserController {
 
     @PostMapping("/registration")
     public ResponseEntity<?> registerUser(@RequestBody Map<String, String> request){
-        String username = request.get("username");
-        String password = request.get("password");
+        String username =  request.get("username");
+        String password =  request.get("password");
+
         try{
             User user = userService.registerUser(username, password);
             return ResponseEntity.ok(user.getUsername());

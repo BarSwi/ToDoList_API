@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.dao.DuplicateKeyException;
 
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -32,9 +33,14 @@ public class UserController {
 
 
 
+
         if (authenticatedUser != null) {
+            Map<String, String> map = new HashMap<>();
+
+            map.put("username", authenticatedUser.getUsername());
+
             // Authentication successful, return the user or any required information
-            return ResponseEntity.ok(authenticatedUser);
+            return ResponseEntity.ok(map);
         } else {
             // Authentication failed, provide an appropriate response
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -48,8 +54,12 @@ public class UserController {
         String password =  request.get("password");
 
         try{
+            Map<String, String> map = new HashMap<>();
+
+
             User user = userService.registerUser(username, password);
-            return ResponseEntity.ok(user.getUsername());
+            map.put("username", user.getUsername());
+            return ResponseEntity.ok(map);
         }catch(IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }catch(DuplicateKeyException e){
